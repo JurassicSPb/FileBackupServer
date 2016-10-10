@@ -6,6 +6,8 @@ package ru.levelp;
 import ru.levelp.api.Methods;
 import ru.levelp.api.RequestContainer;
 import ru.levelp.api.ResponseContainer;
+import ru.levelp.dao.BackupDatabase;
+import ru.levelp.entities.BackupInfo;
 import ru.levelp.utils.JsonUtil;
 
 import java.io.*;
@@ -25,6 +27,7 @@ public class ClientHandler extends Thread {
 
     @Override
     public void run() {
+
         try {
             while (running) {
                 String jsonRequest = reader.readLine();
@@ -42,9 +45,15 @@ public class ClientHandler extends Thread {
         String method = request.getMethod();
         if (method.equals(Methods.UPLOAD)) {
             receiveFile(request.getId(), request.getBackupName());
+            BackupInfo b = new BackupInfo();
+            b.setId(request.getId());
+            b.setName(request.getBackupName());
+            b.setCreated(request.getTs());
+            BackupDatabase.getInstance().add(b);
             disconnect();
         } else if (method.equals(Methods.GET_HISTORY)) {
-            //background thread...
+            //отдельный thread
+            System.out.println(BackupDatabase.getInstance().getAll());
         } else if (method.equals(Methods.GET_BACKUP)) {
 
         }

@@ -17,7 +17,7 @@ public class BackupInfo {
     private String name;
 
     @Column(name = "created")
-    private String created;
+    private long created;
 
     public void setId(int id) {
         this.id = id;
@@ -27,20 +27,20 @@ public class BackupInfo {
         this.name = name;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(long created) {
         this.created = created;
     }
 
     public int getId() {
-
         return id;
     }
 
     public String getName() {
+
         return name;
     }
 
-    public String getCreated() {
+    public long getCreated() {
         return created;
     }
 }
